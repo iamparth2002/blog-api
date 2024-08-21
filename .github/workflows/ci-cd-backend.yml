@@ -1,6 +1,5 @@
 name: Backend CI/CD
 
-# Trigger the workflow on push to the main branch and on pull requests targeting the main branch
 on:
   push:
     branches:
@@ -14,29 +13,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the code from the repository
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Set up Node.js environment (using Node.js 20 for compatibility)
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20'
 
-      # Install dependencies
       - name: Install dependencies
         run: npm install
 
-
-      # Lint the code to ensure code quality
-      
-
-      # Deploy to Vercel
       - name: Deploy to Vercel
         run: |
           npm install -g vercel
-          vercel --prod --token ${{ secrets.VERCEL_TOKEN }} 
+          vercel --prod --token ${{ secrets.VERCEL_TOKEN }} --project ${{ secrets.VERCEL_PROJECT_ID }}
         env:
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
